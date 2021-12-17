@@ -7,6 +7,11 @@ class bst {
 public:
     class node {
     public:
+        K key_;
+        V value_;
+        node* left_;
+        node* right_;
+
         node(const K& key, const V& value)
                 :key_(key), value_(value), left_(nullptr), right_(nullptr) {
         };
@@ -14,16 +19,8 @@ public:
         node(const node& other) {
             key_ = other.key_;
             value_ = other.value_;
-            left_ = nullptr;
-            right_ = nullptr;
-
-            if (other.left_ != nullptr) {
-                left_ = new node(*other.left_);
-            }
-
-            if (other.right_ != nullptr) {
-                right_ = new node(*other.right_);
-            }
+            left_ = other.left_;
+            right_ = other.right_;
         }
 
         ~node() {
@@ -36,12 +33,7 @@ public:
             }
         }
 
-    private:
-        K key_;
-        V value_;
-        node* left_;
-        node* right_;
-
+    protected:
         node* most_left() {
             auto current = this;
 
@@ -218,7 +210,7 @@ public:
         keys_ = other.keys_;
     }
 
-    bool insert(const K& key, const V& value) {
+    virtual bool insert(const K& key, const V& value) {
         operationsCounter_ = 0;
 
         try {
@@ -245,7 +237,7 @@ public:
         return (*result).value_;
     }
 
-    bool remove(const K& key) {
+    virtual bool remove(const K& key) {
         operationsCounter_ = 0;
 
         try {
@@ -336,14 +328,14 @@ public:
         delete root_;
     };
 
-private:
+protected:
     node* root_;
     size_t size_;
 
     std::vector<K> keys_ = std::vector<K>();
     size_t operationsCounter_ = 0;
 
-    node* insert(const K& key, const V& value, node* current) {
+    virtual node* insert(const K& key, const V& value, node* current) {
         operationsCounter_ = operationsCounter_ + 1;
 
         if (current == nullptr) {
@@ -376,7 +368,7 @@ private:
         return get(key, current->right_);
     }
 
-    node* remove(const K& key, node* current) {
+    virtual node* remove(const K& key, node* current) {
         operationsCounter_ = operationsCounter_ + 1;
 
         if (current == nullptr) {
