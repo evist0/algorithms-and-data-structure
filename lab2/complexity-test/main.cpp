@@ -24,7 +24,7 @@ INT_64 LineRand() {
     y1 = (aRand * RRand + cRand) % mRand;
     y2 = (aRand * y1 + cRand) % mRand;
 
-    RRand = y1 & 0xfffffffffffff000 ^ (y2 & 0xfffffffffffff000) >> 32;
+    RRand = y1 & 0xffffffffffffffff ^ (y2 & 0xffffffffffffffff) >> 32;
 
     return RRand;
 }
@@ -90,9 +90,9 @@ void test_rand(int n) {
     std::cout << "1.39*log2(n)=" << 1.39 * (log((double)n) / log(2.0))
               << std::endl; //теоретической оценки трудоёмкости операций BST
 
-    std::cout << "Count insert: " << I / (n / 2) << std::endl; //экспериментальной оценки трудоёмкости вставки
-
     std::cout << "Count delete: " << D / (n / 2) << std::endl; //экспериментальной оценки трудоёмкости удаления
+
+    std::cout << "Count insert: " << I / (n / 2) << std::endl; //экспериментальной оценки трудоёмкости вставки
 
     std::cout << "Count search: " << S / (n / 2) << std::endl; //экспериментальной оценки трудоёмкости поиска
 
@@ -164,11 +164,11 @@ void test_ord(int n) {
     }
     std::cout << "items count:" << tree.size() << std::endl;// вывод размера дерева после теста
 
-    std::cout << "n/2 =" << n / 2 << std::endl;//теоретической оценки трудоёмкости операций BST
-
-    std::cout << "Count insert: " << I / (n / 2) << std::endl;//экспериментальной оценки трудоёмкости вставки
+    std::cout << "n/2 =" << n / 2 << std::endl;// теоретической оценки трудоёмкости операций BST
 
     std::cout << "Count delete: " << D / (n / 2) << std::endl;//экспериментальной оценки трудоёмкости удаления
+
+    std::cout << "Count insert: " << I / (n / 2) << std::endl;//экспериментальной оценки трудоёмкости вставки
 
     std::cout << "Count search: " << S / (n / 2) << std::endl;//экспериментальной оценки трудоёмкости поиска
 
@@ -176,13 +176,22 @@ void test_ord(int n) {
 }
 
 int main() {
-
     std::cout << "Test Rand" << std::endl << std::endl;
-    test_rand(2000);
+
+    for (auto i = 1; i <= 10; i++) {
+        test_rand(500 * i);
+
+        std::cout << std::endl;
+    }
 
     std::cout << std::endl;
 
     std::cout << "Test Ord" << std::endl << std::endl;
-    test_ord(2000);
+
+    for (auto i = 1; i <= 10; i++) {
+        test_ord(500 * i);
+
+        std::cout << std::endl;
+    }
     std::cout << std::endl;
 }
