@@ -130,8 +130,6 @@ int main() {
         std::cout << std::endl << "33. Iterator outgoing edges" << std::endl;
 
         std::cout << std::endl << "34. Classify edges from vertex" << std::endl;
-//
-//        std::cout << std::endl << "35. Алгоритм Беллмана - Форда" << std::endl;
 
         std::cout << std::endl << "40. Exit" << std::endl;
 
@@ -431,9 +429,16 @@ int main() {
             bool ex = false;
 
             std::cout << std::endl << "Input Vertex: ";
-            std::cin >> tmp;
+            std::string name;
+            std::cin >> name;
 
-            oIt = new my_graph::outgoing_edge_iterator(*graph, *graph->get_vertex(tmp));
+            try {
+                oIt = new my_graph::outgoing_edge_iterator(*graph, *graph->get_vertex(name));
+            }
+            catch (std::exception& e) {
+                std::cerr << "EXCEPTION";
+                break;
+            }
 
             while (true) {
                 std::cout << std::endl << "Iterator Outgoing Edges:" << std::endl;

@@ -178,20 +178,16 @@ void test_ord(int n) {
 int main() {
     std::cout << "Test Rand" << std::endl << std::endl;
 
-    for (auto i = 1; i <= 10; i++) {
-        test_rand(500 * i);
+    test_rand(3000);
 
-        std::cout << std::endl;
-    }
+    std::cout << std::endl;
 
     std::cout << std::endl;
 
     std::cout << "Test Ord" << std::endl << std::endl;
 
-    for (auto i = 1; i <= 10; i++) {
-        test_ord(500 * i);
+    test_ord(3000);
 
-        std::cout << std::endl;
-    }
+    std::cout << std::endl;
     std::cout << std::endl;
 }

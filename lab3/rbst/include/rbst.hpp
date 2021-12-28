@@ -35,6 +35,10 @@ public:
         return true;
     }
 
+    void print(std::ostream& out) {
+        print(out, this->root_, 0);
+    }
+
 private:
     std::pair<typename bst<K, V>::node*, typename bst<K, V>::node*>
     split(typename bst<K, V>::node* current, const K& key) {
@@ -70,6 +74,21 @@ private:
         return left_size + right_size + 1;
     }
 
+    void print(std::ostream& out, typename bst<K, V>::node* current, std::size_t level) {
+        if (current == nullptr) {
+            return;
+        }
+
+        print(out, current->right_, level + 1);
+
+        for (auto i = 0; i < level; i++) {
+            std::cout << "   ";
+        }
+        std::cout << current->key_ << " " << node_size(current) << std::endl;
+
+        print(out, current->left_, level + 1);
+    }
+
     typename bst<K, V>::node* insert_as_root(const K& key, const V& value, typename bst<K, V>::node* current) {
         if (current == nullptr) {
             return new typename bst<K, V>::node(key, value);
@@ -95,7 +114,7 @@ private:
 
         auto current_size = current == nullptr ? 0 : node_size(current);
 
-        bool should_insert_root = rand() % (current_size + 1) == 0;
+        bool should_insert_root = rand() < RAND_MAX / (current_size + 1);
 
         if (should_insert_root) {
             current = insert_as_root(key, value, current);
@@ -121,7 +140,7 @@ private:
             return nullptr;
         }
 
-        if (rand() % (left_size + right_size + 1) < left_size) {
+        if ((rand() / RAND_MAX / (left_size + right_size + 1)) < left_size) {
             if (left_size == 0) {
                 return new typename bst<K, V>::node(right->key_, right->value_);
             }
